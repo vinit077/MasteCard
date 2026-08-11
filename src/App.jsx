@@ -53,6 +53,7 @@ export default function App() {
       setApplications(apps);
       setIsBackendConnected(true);
     } catch (err) {
+      console.error('Backend sync error:', err);
       setIsBackendConnected(false);
       // Fallback to localStorage if Spring Boot API is offline
       const savedW = localStorage.getItem('mc_prep_weeks');
