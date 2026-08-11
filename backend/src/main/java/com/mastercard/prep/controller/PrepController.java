@@ -1,12 +1,33 @@
 package com.mastercard.prep.controller;
 
 import com.mastercard.prep.config.DataInitializer;
-import com.mastercard.prep.entity.*;
-import com.mastercard.prep.repository.*;
+import com.mastercard.prep.entity.ConceptCard;
+import com.mastercard.prep.entity.DsaProblem;
+import com.mastercard.prep.entity.JobApplication;
+import com.mastercard.prep.entity.StarStory;
+import com.mastercard.prep.entity.WeekTask;
+import com.mastercard.prep.repository.ConceptCardRepository;
+import com.mastercard.prep.repository.DsaProblemRepository;
+import com.mastercard.prep.repository.JobApplicationRepository;
+import com.mastercard.prep.repository.StarStoryRepository;
+import com.mastercard.prep.repository.WeekTaskRepository;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.lang.NonNull;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/prep")
@@ -70,7 +91,7 @@ public class PrepController {
     }
 
     @PutMapping("/weeks/{weekId}/tasks/{taskId}/toggle")
-    public ResponseEntity<WeekTask> toggleTask(@PathVariable Integer weekId, @PathVariable String taskId) {
+    public ResponseEntity<WeekTask> toggleTask(@PathVariable Integer weekId, @PathVariable @NonNull String taskId) {
         Optional<WeekTask> opt = weekTaskRepository.findById(taskId);
         if (opt.isPresent()) {
             WeekTask task = opt.get();
@@ -88,7 +109,7 @@ public class PrepController {
     }
 
     @PutMapping("/dsa/{problemId}/toggle")
-    public ResponseEntity<DsaProblem> toggleDsa(@PathVariable String problemId) {
+    public ResponseEntity<DsaProblem> toggleDsa(@PathVariable @NonNull String problemId) {
         Optional<DsaProblem> opt = dsaProblemRepository.findById(problemId);
         if (opt.isPresent()) {
             DsaProblem p = opt.get();
@@ -109,7 +130,7 @@ public class PrepController {
     }
 
     @PutMapping("/dsa/{problemId}/notes")
-    public ResponseEntity<DsaProblem> updateDsaNotes(@PathVariable String problemId, @RequestBody Map<String, String> body) {
+    public ResponseEntity<DsaProblem> updateDsaNotes(@PathVariable @NonNull String problemId, @RequestBody Map<String, String> body) {
         Optional<DsaProblem> opt = dsaProblemRepository.findById(problemId);
         if (opt.isPresent()) {
             DsaProblem p = opt.get();
@@ -127,7 +148,7 @@ public class PrepController {
     }
 
     @PutMapping("/flashcards/{cardId}/mastery")
-    public ResponseEntity<ConceptCard> updateMastery(@PathVariable String cardId, @RequestBody Map<String, String> body) {
+    public ResponseEntity<ConceptCard> updateMastery(@PathVariable @NonNull String cardId, @RequestBody Map<String, String> body) {
         Optional<ConceptCard> opt = conceptCardRepository.findById(cardId);
         if (opt.isPresent()) {
             ConceptCard card = opt.get();
@@ -145,7 +166,7 @@ public class PrepController {
     }
 
     @PutMapping("/star-stories/{storyId}")
-    public ResponseEntity<StarStory> updateStarStory(@PathVariable String storyId, @RequestBody StarStory updatedStory) {
+    public ResponseEntity<StarStory> updateStarStory(@PathVariable @NonNull String storyId, @RequestBody StarStory updatedStory) {
         updatedStory.setId(storyId);
         StarStory saved = starStoryRepository.save(updatedStory);
         return ResponseEntity.ok(saved);
@@ -167,7 +188,7 @@ public class PrepController {
     }
 
     @PutMapping("/applications/{appId}/stage")
-    public ResponseEntity<JobApplication> updateStage(@PathVariable String appId, @RequestBody Map<String, String> body) {
+    public ResponseEntity<JobApplication> updateStage(@PathVariable @NonNull String appId, @RequestBody Map<String, String> body) {
         Optional<JobApplication> opt = jobApplicationRepository.findById(appId);
         if (opt.isPresent()) {
             JobApplication app = opt.get();

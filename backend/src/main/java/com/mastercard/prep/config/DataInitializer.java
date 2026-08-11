@@ -1,11 +1,18 @@
 package com.mastercard.prep.config;
 
-import com.mastercard.prep.entity.*;
-import com.mastercard.prep.repository.*;
+import com.mastercard.prep.entity.ConceptCard;
+import com.mastercard.prep.entity.DsaProblem;
+import com.mastercard.prep.entity.JobApplication;
+import com.mastercard.prep.entity.StarStory;
+import com.mastercard.prep.entity.WeekTask;
+import com.mastercard.prep.repository.ConceptCardRepository;
+import com.mastercard.prep.repository.DsaProblemRepository;
+import com.mastercard.prep.repository.JobApplicationRepository;
+import com.mastercard.prep.repository.StarStoryRepository;
+import com.mastercard.prep.repository.WeekTaskRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -36,6 +43,7 @@ public class DataInitializer implements CommandLineRunner {
         }
     }
 
+    @SuppressWarnings("null")
     public void seedDatabase() {
         weekTaskRepository.deleteAll();
         dsaProblemRepository.deleteAll();
@@ -44,7 +52,7 @@ public class DataInitializer implements CommandLineRunner {
         jobApplicationRepository.deleteAll();
 
         // Seed Week Tasks
-        List<WeekTask> tasks = Arrays.asList(
+        List<WeekTask> tasks = List.of(
             new WeekTask("w1_1", 1, "Arrays & Strings: Two Pointers & Sliding Window (2 problems/day)", "DSA", false),
             new WeekTask("w1_2", 1, "HashMaps & Sets: Frequency counting & lookup optimizations", "DSA", false),
             new WeekTask("w1_3", 1, "Recursion & Backtracking basics (Subsets, Permutations)", "DSA", false),
@@ -84,7 +92,7 @@ public class DataInitializer implements CommandLineRunner {
         weekTaskRepository.saveAll(tasks);
 
         // Seed DSA Problems
-        List<DsaProblem> problems = Arrays.asList(
+        List<DsaProblem> problems = List.of(
             new DsaProblem("dsa-1", "Two Sum", "Arrays & HashMaps", "Easy", false, "https://leetcode.com/problems/two-sum/", "Use HashMap for O(N) lookup of complement."),
             new DsaProblem("dsa-2", "Best Time to Buy and Sell Stock", "Arrays & Strings", "Easy", false, "https://leetcode.com/problems/best-time-to-buy-and-sell-stock/", "Track min price so far and max profit."),
             new DsaProblem("dsa-3", "Longest Substring Without Repeating Characters", "Arrays & Strings", "Medium", false, "https://leetcode.com/problems/longest-substring-without-repeating-characters/", "Sliding window with character last index map."),
@@ -104,7 +112,7 @@ public class DataInitializer implements CommandLineRunner {
         dsaProblemRepository.saveAll(problems);
 
         // Seed Flashcards
-        List<ConceptCard> cards = Arrays.asList(
+        List<ConceptCard> cards = List.of(
             new ConceptCard("fc-1", "Java Internals", "How does HashMap work internally in Java 8+ when collisions occur?", "HashMap uses an array of Node buckets. When hash collision occurs (same index = hash % capacity), elements are stored in a linked list. In Java 8+, if a bucket has > 8 elements, the linked list converts to a Red-Black Tree (O(log N) lookup instead of O(N)). On resize, elements are rehashed.", "Needs Review"),
             new ConceptCard("fc-2", "Java Internals", "What is the contract between equals() and hashCode()?", "If two objects are equal according to equals(), they MUST have the same hashCode(). However, if two objects have the same hashCode(), they are NOT necessarily equal (hash collision). Violating this contract breaks HashMap and HashSet keys.", "Needs Review"),
             new ConceptCard("fc-3", "Java Internals", "Explain JVM Memory Structure: Stack vs Heap vs Metaspace.", "Stack holds thread-specific execution frames, local variables, and primitive types (short-lived, auto cleaned). Heap holds all instantiated objects (shared across threads, managed by GC). Metaspace (replaced PermGen in Java 8) stores class metadata in native memory.", "Needs Review"),
@@ -129,7 +137,7 @@ public class DataInitializer implements CommandLineRunner {
         conceptCardRepository.saveAll(cards);
 
         // Seed STAR Stories
-        List<StarStory> stories = Arrays.asList(
+        List<StarStory> stories = List.of(
             new StarStory("star-1", "Internship Tech Migration: Flutter to Supabase", "A technical challenge from your internship showing real production trade-offs.", "During my internship, our mobile application experienced slow sync speeds and backend latency under concurrent user usage.", "I was tasked with migrating backend connectivity and real-time state management from our legacy setup to Supabase.", "I evaluated Supabase PostgreSQL real-time listeners, implemented optimistic UI updates in Flutter, and optimized RLS (Row Level Security) policies.", "Reduced sync latency by 45%, eliminated data race conditions, and deployed a smooth real-time feature set without downtime."),
             new StarStory("star-2", "Team Collaboration Under Ambiguity", "A time you collaborated with a team when requirements were unclear.", "Working on our AI Expense Splitter project, settlement logic requirements were ambiguous regarding split edge cases (e.g. unequal split & pending refunds).", "Lead the technical consensus on settling debts cleanly without confusing the user.", "I organized a quick wireframing session, drafted a simplified greedy algorithm for debt minimization, and built a quick prototype to demo to team members.", "Aligned team members within 24 hours and delivered a debt-simplification feature that reduced total transactions needed by 60%."),
             new StarStory("star-3", "Why Mastercard & Fintech Security", "Tie your background in Spring Boot & JWT security to Mastercard's mission.", "I built an Employee Management Portal with custom JWT authentication, Spring Security, and role-based access control.", "Explain why Mastercard's engineering culture and payment network appeal to you.", "I deeply enjoyed designing stateless token verification and understanding security trade-offs. Mastercard handles billions of secure transactions daily.", "Excited to bring my foundational Java/Spring Boot knowledge, security mindset, and commitment to Decency Quotient (DQ) to Mastercard's Associate team.")
@@ -137,7 +145,7 @@ public class DataInitializer implements CommandLineRunner {
         starStoryRepository.saveAll(stories);
 
         // Seed Applications
-        List<JobApplication> apps = Arrays.asList(
+        List<JobApplication> apps = List.of(
             new JobApplication("app-1", "Mastercard", "SDE-1 / Software Engineer Associate", "2026-08-10", "Preparing OA", "Requested / Pending", "Target role! Focusing heavily on DSA + Java Internals + Payment Security.")
         );
         jobApplicationRepository.saveAll(apps);
