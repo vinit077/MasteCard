@@ -1,6 +1,9 @@
 // Dynamic API Host (auto-normalizes VITE_API_URL or defaults to live Render backend)
-const rawApiUrl = (import.meta.env.VITE_API_URL && import.meta.env.VITE_API_URL.trim() !== '')
-  ? import.meta.env.VITE_API_URL.trim()
+const envUrl = import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.trim() : '';
+const isValidEnvUrl = envUrl !== '' && !envUrl.includes('<') && !envUrl.includes('your-render-backend-url');
+
+const rawApiUrl = isValidEnvUrl
+  ? envUrl
   : (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
       ? 'http://localhost:8080' 
       : 'https://mastercard-prep-backend.onrender.com');
