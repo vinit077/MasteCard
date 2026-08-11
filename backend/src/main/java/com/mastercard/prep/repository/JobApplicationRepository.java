@@ -1,0 +1,7 @@
+package com.mastercard.prep.repository;
+
+import com.mastercard.prep.entity.JobApplication;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface JobApplicationRepository extends JpaRepository<JobApplication, String> {
+}
