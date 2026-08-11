@@ -1,9 +1,9 @@
-// Dynamic API Host (prioritizes VITE_API_URL env variable for Vercel deployment)
+// Dynamic API Host (prioritizes VITE_API_URL, falls back to live Render backend)
 const API_BASE = import.meta.env.VITE_API_URL 
   ? import.meta.env.VITE_API_URL 
-  : (window.location.hostname === 'localhost' 
+  : (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
       ? 'http://localhost:8080/api/prep' 
-      : `http://${window.location.hostname}:8080/api/prep`);
+      : 'https://mastercard-prep-backend.onrender.com/api/prep');
 
 export async function fetchWeeks() {
   const res = await fetch(`${API_BASE}/weeks`);
