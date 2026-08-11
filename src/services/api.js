@@ -1,9 +1,12 @@
-// Dynamic API Host (prioritizes VITE_API_URL, falls back to live Render backend)
-const API_BASE = import.meta.env.VITE_API_URL 
-  ? import.meta.env.VITE_API_URL 
+// Dynamic API Host (auto-normalizes VITE_API_URL or defaults to live Render backend)
+const rawApiUrl = (import.meta.env.VITE_API_URL && import.meta.env.VITE_API_URL.trim() !== '')
+  ? import.meta.env.VITE_API_URL.trim()
   : (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-      ? 'http://localhost:8080/api/prep' 
-      : 'https://mastercard-prep-backend.onrender.com/api/prep');
+      ? 'http://localhost:8080' 
+      : 'https://mastercard-prep-backend.onrender.com');
+
+const cleanBaseUrl = rawApiUrl.replace(/\/+$/, '');
+const API_BASE = cleanBaseUrl.endsWith('/api/prep') ? cleanBaseUrl : `${cleanBaseUrl}/api/prep`;
 
 export async function fetchWeeks() {
   const res = await fetch(`${API_BASE}/weeks`);
